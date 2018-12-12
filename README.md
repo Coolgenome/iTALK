@@ -14,4 +14,4 @@ library(iTALK)
 ```
 # Citation
 
-For any bugs, enhancement requests and other issues, please use the [`iTALK` GitHub issues tracker](https://github.com/Coolgenome/iTALk/issues) or email [Yuanxin Wang](ywang65@mdanderson.org).
+For any bugs, enhancement requests and other issues, please use the [`iTALK` GitHub issues tracker](https://github.com/Coolgenome/iTALk/issues) or email [Yuanxin Wang](mailto:ywang65@mdanderson.org).
