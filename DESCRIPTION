@@ -1,0 +1,31 @@
+Package: iTALK
+Type: Package
+Title: Characterize and Illustrate Intercellular Communication 
+Version: 1.0.0
+Date: 2018-12-12
+Author: Yuanxin Wang
+Maintainer: Yuanxin Wang <ywang65@mdanderson.org>
+Description: iTALK, a computational approach to characterize, compare, 
+    and illustrate intercellular communication signals in the multicellular
+    ecosystem using either bulk RNA sequencing data or single cell RNAseq data. 
+    iTALK can in principle be used to dissect the complexity, diversity, and 
+    dynamics of cell-cell communication from a wide range of cellular processes.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Depends: R (>= 3.4.0)
+Imports:
+    progress,
+    pbapply,
+    dplyr,
+    tidyr,
+    graphics,
+    randomcoloR,
+    circlize,
+    ggplot2,
+    network,
+    igraph
+VignetteBuilder: knitr
+URL: https://github.com/Coolgenome/iTALK
+biocViews: DESeq2, edgeR, monocle, scde, DEsingle, MAST
+RoxygenNote: 6.0.1
