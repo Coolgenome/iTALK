@@ -6,7 +6,7 @@ To install the developmental version from GitHub:
 
 ```R
 if(!require(devtools)) install.packages("devtools");
-devtools::install_github("Coolgenome/iTALk", build_vignettes = TRUE)
+devtools::install_github("Coolgenome/iTALK", build_vignettes = TRUE)
 ```
 To load the installed `iTALK` in R:
 ```R
