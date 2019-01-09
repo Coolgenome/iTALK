@@ -41,17 +41,17 @@ FindLR<-function(data_1,data_2=NULL,datatype,comm_type,database=NULL){
     ind<-intersect(ligand_ind,receptor_ind)
     FilterTable_1<-database[ind,c('Ligand.ApprovedSymbol','Receptor.ApprovedSymbol')] %>%
       left_join(gene_list_1[,c('gene','exprs','cell_type')],by=c('Ligand.ApprovedSymbol'='gene')) %>%
-      dplyr::rename(cell_from_mean_exprs=mean_exprs,cell_from=cell_type) %>%
+      dplyr::rename(cell_from_mean_exprs=exprs,cell_from=cell_type) %>%
       left_join(gene_list_2[,c('gene','exprs','cell_type')],by=c('Receptor.ApprovedSymbol'='gene')) %>%
-      dplyr::rename(cell_to_mean_exprs=mean_exprs,cell_to=cell_type)
+      dplyr::rename(cell_to_mean_exprs=exprs,cell_to=cell_type)
     ligand_ind<-which(database$Ligand.ApprovedSymbol %in% gene_list_2$gene)
     receptor_ind<-which(database$Receptor.ApprovedSymbol %in% gene_list_1$gene)
     ind<-intersect(ligand_ind,receptor_ind)
     FilterTable_2<-database[ind,c('Ligand.ApprovedSymbol','Receptor.ApprovedSymbol')] %>%
       left_join(gene_list_2[,c('gene','exprs','cell_type')],by=c('Ligand.ApprovedSymbol'='gene')) %>%
-      dplyr::rename(cell_from_mean_exprs=mean_exprs,cell_from=cell_type) %>%
+      dplyr::rename(cell_from_mean_exprs=exprs,cell_from=cell_type) %>%
       left_join(gene_list_1[,c('gene','exprs','cell_type')],by=c('Receptor.ApprovedSymbol'='gene')) %>%
-      dplyr::rename(cell_to_mean_exprs=mean_exprs,cell_to=cell_type)
+      dplyr::rename(cell_to_mean_exprs=exprs,cell_to=cell_type)
     FilterTable<-rbind(FilterTable_1,FilterTable_2)
   }else if(datatype=='DEG'){
     gene_list_1<-data_1
