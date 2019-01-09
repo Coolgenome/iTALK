@@ -48,7 +48,7 @@
 #' @import MAST
 #' @import Biobase
 #' @export
-DEG<-function(data,method, min_gene_expressed=0, min_valid_cells=0,contrast=NULL,q_cut=0.05,...){
+DEG<-function(data,method, min_gene_expressed=0, min_valid_cells=0,contrast=NULL,q_cut=0.05,add=TRUE,top=50,stats='mean',...){
   if(method %in% c('SCDE','monocle','DESingle','MAST') && dim(data)[1]>=400){
     print('Warning: It may take a long time. You can go and brew a cup of coffee...')
   }
@@ -120,9 +120,11 @@ DEG<-function(data,method, min_gene_expressed=0, min_valid_cells=0,contrast=NULL
   cell_type<-unique(data$cell_type)
   res<-data.frame(res,cell_type,stringsAsFactors = FALSE)
   res <- res %>% filter(q.value<q_cut)
-  parsedData<-rawParse(data %>% select(-compare_group))%>% select(c(gene,cell_type))%>% mutate(logFC=0.0001,p.value=NA,q.value=NA)
-  parsedData<-parsedData %>% anti_join(res,by=c('gene'='gene'))
-  res<-rbind(res,parsedData)
+  if(add){
+    parsedData<-rawParse(data %>% select(-compare_group),top=top,stats=stats)%>% select(c(gene,cell_type))%>% mutate(logFC=0.0001,p.value=NA,q.value=NA)
+    parsedData<-parsedData %>% anti_join(res,by=c('gene'='gene'))
+    res<-rbind(res,parsedData)
+  }    
   return(res)
 }
 
