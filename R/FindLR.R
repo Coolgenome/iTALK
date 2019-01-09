@@ -25,7 +25,7 @@
 #' @export
 FindLR<-function(data_1,data_2=NULL,datatype,comm_type,database=NULL){
   if(is.null(database)){
-    data('LR_database')
+    database<-iTALK:::database
   }
   database<-database[database$Classification==comm_type,]
   if(datatype=='mean count'){
