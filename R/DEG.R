@@ -37,6 +37,10 @@
 #' @param contrast String vector specifying the contrast to be
 #' tested against the log2-fold-change threshold
 #' @param q_cut Cut-off for q value
+#' @param add Whether add genes that are not differentially expressed 
+#' but highly expressed for finding the significant pairs later
+#' @param top Same as in function rawParse
+#' @param stats Same as in function rawParse
 #' @return A matrix of the differential expressed genes
 #' @importFrom utils installed.packages
 #' @import dplyr
