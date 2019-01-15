@@ -64,7 +64,11 @@ NetView<-function(data,col,label=TRUE,edge.curved=0.5,shape='circle',layout=nice
   if(label){
     E(g)$label<-E(g)$n
   }
-  E(g)$width<-ifelse(max(E(g)$n)==min(E(g)$n),2,1+edge.max.width/(max(E(g)$n)-min(E(g)$n))*(E(g)$n-min(E(g)$n)))
+  if(max(E(g)$n)==min(E(g)$n)){
+    E(g)$width<-2
+  }else{
+    E(g)$width<-1+edge.max.width/(max(E(g)$n)-min(E(g)$n))*(E(g)$n-min(E(g)$n))
+  }
   E(g)$arrow.width<-arrow.width
   E(g)$label.color<-edge.label.color
   E(g)$label.cex<-edge.label.cex
