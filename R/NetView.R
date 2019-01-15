@@ -51,7 +51,11 @@ NetView<-function(data,col,label=TRUE,edge.curved=0.5,shape='circle',layout=nice
   g<-graph.data.frame(net,directed=TRUE)
   edge.start <- ends(g, es=E(g), names=FALSE)
   coords<-layout_(g,layout)
-  coords_scale<-scale(coords)
+  if(nrow(coords)!=1){
+    coords_scale=scale(coords)
+  }else{
+    coords_scale<-coords
+  }
   loop.angle<-ifelse(coords_scale[V(g),1]>0,-atan(coords_scale[V(g),2]/coords_scale[V(g),1]),pi-atan(coords_scale[V(g),2]/coords_scale[V(g),1]))
   V(g)$size<-vertex.size
   V(g)$color<-col[V(g)]
@@ -60,7 +64,7 @@ NetView<-function(data,col,label=TRUE,edge.curved=0.5,shape='circle',layout=nice
   if(label){
     E(g)$label<-E(g)$n
   }
-  E(g)$width<-1+edge.max.width/(max(E(g)$n)-min(E(g)$n))*(E(g)$n-min(E(g)$n))
+  E(g)$width<-ifelse(max(E(g)$n)==min(E(g)$n),2,1+edge.max.width/(max(E(g)$n)-min(E(g)$n))*(E(g)$n-min(E(g)$n)))
   E(g)$arrow.width<-arrow.width
   E(g)$label.color<-edge.label.color
   E(g)$label.cex<-edge.label.cex
