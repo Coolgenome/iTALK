@@ -35,10 +35,10 @@ rawParse<-function(data,top_genes=50,stats='mean'){
     }
     temp<-temp[order(temp[,1],decreasing=TRUE),]
     temp<-temp[1:ceiling(nrow(temp)*top_genes/100),]
+    temp<-temp %>% tibble::rownames_to_column()
     res<-rbind(res,temp)
     pb$tick()
   }
-  res<-data.frame(rownames(res),res,stringsAsFactors = FALSE)
   colnames(res)<-c('gene','exprs','cell_type')
   return(res)
 }
