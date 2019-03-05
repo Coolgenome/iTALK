@@ -172,7 +172,7 @@ WilcoxTest<-function(sub_data,min_gene_expressed, min_valid_cells,
     }
   )
   if(datatype=='raw count'){
-    logFC<-log(rowSums(counts[,groups==contrast[1]])/rowSums(counts[,groups==contrast[2]]),2)
+    logFC<-log(rowSums(counts[,groups==contrast[1]])/ncol(counts[,groups==contrast[1]])/(rowSums(counts[,groups==contrast[2]])/ncol(counts[,groups==contrast[2]])),2)
   }else if(datatype=='log count'){
     logFC<-rowSums(counts[,groups==contrast[1]])/ncol(counts[,groups==contrast[1]])-rowSums(counts[,groups==contrast[2]])/ncol(counts[,groups==contrast[2]])
   }else{
