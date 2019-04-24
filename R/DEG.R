@@ -574,7 +574,7 @@ DESingleTest<-function(sub_data,min_gene_expressed,min_valid_cells,contrast=uniq
 MASTTest<-function(sub_data,min_gene_expressed,min_valid_cells,contrast=unique(sub_data$compare_group),
                    method='glm',silent=FALSE,check_logged=TRUE){
   counts<-t(subset(sub_data,select=-compare_group))
-  groups<-as.factor(sub_data[valid_cells,'compare_group'])
+  groups<-as.factor(sub_data[min_valid_cells,'compare_group'])
   counts<-apply(counts,2,function(x) {storage.mode(x) <- 'numeric'; x})
   expressed_genes <- rownames(subset(counts,rowSums(counts) >= min_gene_expressed))
   valid_cells<-(colSums(counts)>=min_valid_cells)
