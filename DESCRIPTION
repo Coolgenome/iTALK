@@ -30,7 +30,8 @@ Imports:
     monocle, 
     scde, 
     DEsingle, 
-    MAST
+    MAST,
+    scater
 VignetteBuilder: knitr
 biocViews: RNASequencing 
 RoxygenNote: 6.1.1
