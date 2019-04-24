@@ -590,8 +590,10 @@ MASTTest<-function(sub_data,min_gene_expressed,min_valid_cells,contrast=unique(s
   zlmCond <- zlm(~compare_group, sca, method=method, silent=silent)
   summaryCond <- summary(zlmCond, logFC=TRUE, doLRT=TRUE)
   summaryDt <- summaryCond$datatable
-  fcHurdle <- merge(summaryDt[component=='H',.(primerid, `Pr(>Chisq)`)], #hurdle P values
-                    summaryDt[component=='logFC', .(primerid, coef)], by='primerid') #logFC coefficients
+  #fcHurdle <- merge(summaryDt[component=='H',.(primerid, `Pr(>Chisq)`)], #hurdle P values
+  #                  summaryDt[component=='logFC', .(primerid, coef)], by='primerid') #logFC coefficients
+  fcHurdle <- merge(summaryDt[component=='H',c(1,4)], #hurdle P values
+                    summaryDt[component=='logFC', c(1,7)], by='primerid') #logFC coefficients
   fcHurdle[,fdr:=p.adjust(`Pr(>Chisq)`, 'fdr')]
   res<-data.frame(fcHurdle[,c('coef','Pr(>Chisq)','fdr')],stringsAsFactors = FALSE)
   colnames(res)<-c('logFC','p.value','q.value')
