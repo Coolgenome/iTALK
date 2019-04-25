@@ -123,9 +123,9 @@ DEG<-function(data,method, min_gene_expressed=0, min_valid_cells=0,contrast=NULL
   }
   cell_type<-unique(data$cell_type)
   res<-data.frame(res,cell_type,stringsAsFactors = FALSE)
-  res <- res %>% filter(q.value<q_cut)
+  res <- res %>% dplyr::filter(q.value<q_cut)
   if(add){
-    parsedData<-rawParse(data %>% select(-compare_group),top=top,stats=stats)%>% select(c(gene,cell_type))%>% mutate(logFC=0.0001,p.value=NA,q.value=NA)
+    parsedData<-rawParse(data %>% select(-compare_group),top=top,stats=stats)%>% select(c(gene,cell_type))%>% dplyr::mutate(logFC=0.0001,p.value=NA,q.value=NA)
     parsedData<-parsedData %>% anti_join(res,by=c('gene'='gene'))
     res<-rbind(res,parsedData)
   }    
@@ -592,14 +592,15 @@ MASTTest<-function(sub_data,min_gene_expressed,min_valid_cells,contrast=unique(s
   summaryDt <- summaryCond$datatable
   #fcHurdle <- merge(summaryDt[component=='H',.(primerid, `Pr(>Chisq)`)], #hurdle P values
   #                  summaryDt[component=='logFC', .(primerid, coef)], by='primerid') #logFC coefficients
-  fcHurdle <- merge(summaryDt[component=='H',c(1,4)], #hurdle P values
-                    summaryDt[component=='logFC', c(1,7)], by='primerid') #logFC coefficients
-  fcHurdle[,fdr:=p.adjust(`Pr(>Chisq)`, 'fdr')]
-  res<-data.frame(fcHurdle[,c('coef','Pr(>Chisq)','fdr')],stringsAsFactors = FALSE)
+  p.val<-data.frame(summaryDt[component=='H',4],summaryDt[component=='H',1])
+  logFC<-data.frame(summaryDt[component=='logFC',7],summaryDt[component=='logFC',1])
+  res<-logFC %>% inner_join(p.val,by=c('primerid'='primerid')) 
+  res<-res %>% dplyr::mutate(fdr=p.adjust(res$Pr..Chisq., 'fdr')) %>% tibble::column_to_rownames('primerid') 
+  #res<-data.frame(fcHurdle[,c('coef','Pr(>Chisq)','fdr')],stringsAsFactors = FALSE)
   colnames(res)<-c('logFC','p.value','q.value')
-  rownames(res)<-fcHurdle$primerid
+  #rownames(res)<-fcHurdle$primerid
   if(all(levels(groups)!=contrast)){
-    res$logFC<--res$logFC
+    res$logFC<- -res$logFC
   }
   gene<-rownames(counts)
   res<-data.frame(gene,res,stringsAsFactors = FALSE)
