@@ -593,11 +593,12 @@ MASTTest<-function(sub_data,min_gene_expressed,min_valid_cells,contrast=unique(s
   #fcHurdle <- merge(summaryDt[component=='H',.(primerid, `Pr(>Chisq)`)], #hurdle P values
   #                  summaryDt[component=='logFC', .(primerid, coef)], by='primerid') #logFC coefficients
   p.val<-data.frame(summaryDt[summaryDt$component=='H',4],summaryDt[summaryDt$component=='H',1])
-  logFC<-data.frame(summaryDt[summaryDt$component=='logFC',7],summaryDt[summaryDt$component=='logFC',1])
-  res<-logFC %>% inner_join(p.val,by=c('primerid'='primerid')) 
-  res<-res %>% dplyr::mutate(fdr=p.adjust(res$Pr..Chisq., 'fdr')) %>% tibble::column_to_rownames('primerid') 
+  colnames(p.val)<-c('p.value','primerid')
+  log.FC<-data.frame(summaryDt[summaryDt$component=='logFC',7],summaryDt[summaryDt$component=='logFC',1])
+  colnames(log.FC)<-c('logFC','primerid')
+  res<-log.FC %>% inner_join(p.val,by=c('primerid'='primerid')) 
+  res<-res %>% dplyr::mutate(fdr=p.adjust(res$p.value, 'fdr')) %>% tibble::column_to_rownames('primerid') 
   #res<-data.frame(fcHurdle[,c('coef','Pr(>Chisq)','fdr')],stringsAsFactors = FALSE)
-  colnames(res)<-c('logFC','p.value','q.value')
   #rownames(res)<-fcHurdle$primerid
   if(all(levels(groups)!=contrast)){
     res$logFC<- -res$logFC
