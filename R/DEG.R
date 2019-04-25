@@ -597,7 +597,7 @@ MASTTest<-function(sub_data,min_gene_expressed,min_valid_cells,contrast=unique(s
   log.FC<-data.frame(summaryDt[summaryDt$component=='logFC',7],summaryDt[summaryDt$component=='logFC',1])
   colnames(log.FC)<-c('logFC','primerid')
   res<-log.FC %>% inner_join(p.val,by=c('primerid'='primerid')) 
-  res<-res %>% dplyr::mutate(fdr=p.adjust(res$p.value, 'fdr')) %>% tibble::column_to_rownames('primerid') 
+  res<-res %>% dplyr::mutate(fdr=p.adjust(res$p.value, 'q.value')) %>% tibble::column_to_rownames('primerid') 
   #res<-data.frame(fcHurdle[,c('coef','Pr(>Chisq)','fdr')],stringsAsFactors = FALSE)
   #rownames(res)<-fcHurdle$primerid
   if(all(levels(groups)!=contrast)){
