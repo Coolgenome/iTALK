@@ -73,7 +73,9 @@ NetView<-function(data,col,label=TRUE,edge.curved=0.5,shape='circle',layout=nice
   E(g)$label.color<-edge.label.color
   E(g)$label.cex<-edge.label.cex
   E(g)$color<-V(g)$color[edge.start[,1]]
-  E(g)$loop.angle[which(edge.start[,2]==edge.start[,1])]<-loop.angle[edge.start[which(edge.start[,2]==edge.start[,1]),1]]
+  if(sum(edge.start[,2]==edge.start[,1])!=0){
+    E(g)$loop.angle[which(edge.start[,2]==edge.start[,1])]<-loop.angle[edge.start[which(edge.start[,2]==edge.start[,1]),1]]
+  }
   plot(g,edge.curved=edge.curved,vertex.shape=shape,layout=coords_scale,margin=margin)
   return(g)
 }
