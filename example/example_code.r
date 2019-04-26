@@ -65,4 +65,5 @@ if(is.null(res)){
     NetView(res,col=cell_col,vertex.label.cex=1,arrow.width=1,edge.max.width=5)
     LRPlot(res,datatype='DEG',cell_col=cell_col,link.arr.lwd=res$cell_from_logFC,link.arr.width=res$cell_to_logFC)
 }
-
+# I just randomly assigned the compare group to samples which has no biological difference for showing how to use the package.
+# So there should be no significant genes to be expected. 
